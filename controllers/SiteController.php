@@ -6,29 +6,19 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use yii\filters\ContentNegotiator;
+use yii\web\Response;
+use yii\web\NotFoundHttpException;
 
 class SiteController extends Controller
 {
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'read-url' => ['post'], //Allow only post requests for actionReadUrl. (Yii2 splits CamelCase actions with '-')
                 ],
             ],
         ];
@@ -40,16 +30,40 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
         ];
     }
 
+    /**
+     * Renders the index page
+     * @return VIEW
+     */
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    /**
+     * Reads a url and return it's contents
+     * @param string $url
+     * @return URL Data
+     * @throws NotFoundHttpException if the url cannot be found
+     */
+    public function actionReadUrl()
+    {   
+        //Get url from post request
+        $url = Yii::$app->request->post('url'); 
+        //Check if a url parameter was retrieved by the POST request.
+        //Throws an error if not set or empty
+        if (!$url) {
+            throw new NotFoundHttpException('URL is missing!');
+        }
+        //Get the page content
+        $page = file_get_contents($url);
+
+        //Force the controller to return a JSON format encode.
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return $page;
     }
 
 }
