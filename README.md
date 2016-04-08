@@ -10,6 +10,7 @@ DIRECTORY STRUCTURE
       config/             contains application configurations
       controllers/        contains Web controller classes
       mail/               contains view files for e-mails
+      migrations/         contains database migrations
       models/             contains model classes
       runtime/            contains files generated during runtime
       tests/              contains various tests for the basic application
@@ -22,32 +23,35 @@ DIRECTORY STRUCTURE
 REQUIREMENTS
 ------------
 
-The minimum requirement by this project template that your Web server supports PHP 5.4.0.
+The minimum requirement for this project template that your Web server supports PHP 5.6
 
 
 INSTALLATION
 ------------
+### Clone repository
+~~~
+git clone https://github.com/notemood/hashtagen
+~~~
 
-
-### Install via Composer
+### Install Composer
 
 If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
 at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 
-You can then install this project template using the following command:
-
+### Global assets
 ~~~
 php composer.phar global require "fxp/composer-asset-plugin:~1.1.1"
-php composer.phar create-project --prefer-dist --stability=dev notemood/hashtagen hashtagen
 ~~~
 
-Now you should be able to access the application through the following URL, assuming `hashtagen` is the directory
-directly under the Web root.
-
+### Install assets
 ~~~
-http://localhost/basic/web/
+php composer.phar install
 ~~~
 
+**NOTES:** 
+If you installed composer globally, use 'composer' instead of 'php composer.phar'
+
+Now you should be able to access the application
 
 CONFIGURATION
 -------------

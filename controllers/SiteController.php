@@ -9,7 +9,9 @@ use yii\filters\VerbFilter;
 use yii\filters\ContentNegotiator;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
-
+use app\models\Tag;
+use Embed\Embed;
+use yii\data\ArrayDataProvider;
 class SiteController extends Controller
 {
     public function behaviors()
@@ -39,7 +41,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        //Create new Tag object
+        $model = new Tag;
+
+        //Render index.php and send $model to the VIEW
+        return $this->render('index', [
+                'model' => $model,
+            ]);
     }
 
     /**
@@ -57,22 +65,39 @@ class SiteController extends Controller
         if (!$url) {
             throw new NotFoundHttpException('URL is missing!');
         }
-        //Create a dynamic model. No need for a Class
-        $model = new \yii\base\DynamicModel(['TAG']);
-        $model->addRule(['TAG'], 'url');
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            //Get the page content
-            $page = file_get_contents($url);
+        //Force the controller to return a JSON format encode.
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
-            //Force the controller to return a JSON format encode.
-            Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = new Tag();
+        $model->url = $url;
 
-            return $page; 
+        if ($model->validate()) {
+        
+        $info = Embed::create($model->url);
+        if (!$info) {
+            return new NotFoundHttpException('Bad or invalid');
+        }
+
+        $model->title = $info->title;
+        $model->content = $info->getRequest()->getContent();
+        $model->content = $model->cleanContent;
+        $model->description = $info->description;
+
+        $tags = implode(', ', $info->tags);
+        $array1 = explode(' ', $info->title . ', ' . $info->description);
+        $array2 = explode(' ', $model->content);
+        $defaults =  $tags . ', ' . $info->authorName;
+
+        // $model->words = $model->compare($array1, $array2, $defaults);
+        $model->words = $model->hashtags($array1, $array2, $defaults);
+
+        return $this->renderPartial('table', [
+                'model' => $model,
+            ]);
         } else {
             return $model;
         }
-
     }
 
 }

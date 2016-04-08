@@ -1,17 +1,38 @@
 var APP = ( function () {
 
     //cache DOM
-    var inputUrl = $('#input-url'); //The input that contains the url
-    var btnSearch = $('#btn-search'); //The search button
+    var cnt = $('#main'); //The main container
+    var form = cnt.find('#url-form'); //The form
+    var inputUrl = form.find('#input-url'); //The input that contains the url
+    var btnSubmit = form.find('#btn-submit'); //The input that contains the url
 
-    //Bind onclick event on search button
-	btnSearch.on( "click", function() {
-		handleSearch();
+    var results = $('#htg-result'); //The input that contains the url
+    var prBar = $('#progress-bar'); //The loading bar template used for cloning
+
+    //Bind beforeSubmit event on form
+	cnt.on( "beforeSubmit", form, function() {
+		handleSubmit();
+		return false;
 	});
 
-	//The handler for the search button click event
-	function handleSearch() {
-		//Do it here
+	//The handler responsible for the form submission
+	function handleSubmit() {
+		results.html($('#progress-bar').clone(true));
+		var url = inputUrl.val();
+		btnSubmit.attr('disabled', 'true');
+		$.ajax({
+		  type: "POST",
+		  url: '/site/read-url',
+		  data: { url: url},
+		  success: function(data) {
+		  	results.html(data);
+		  	btnSubmit.removeAttr('disabled');
+		  },
+		  error: function(XMLHttpRequest, textStatus, errorThrown) {
+		  	results.html('<span class="label label-danger">' + textStatus + '</span> Bad or Invalid URL');
+		  	btnSubmit.removeAttr('disabled');
+		  },
+		});
 	}
 
 
