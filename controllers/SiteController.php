@@ -57,13 +57,22 @@ class SiteController extends Controller
         if (!$url) {
             throw new NotFoundHttpException('URL is missing!');
         }
-        //Get the page content
-        $page = file_get_contents($url);
+        //Create a dynamic model. No need for a Class
+        $model = new \yii\base\DynamicModel(['TAG']);
+        $model->addRule(['TAG'], 'url');
 
-        //Force the controller to return a JSON format encode.
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            //Get the page content
+            $page = file_get_contents($url);
 
-        return $page;
+            //Force the controller to return a JSON format encode.
+            Yii::$app->response->format = Response::FORMAT_JSON;
+
+            return $page; 
+        } else {
+            return $model;
+        }
+
     }
 
 }
