@@ -1,19 +1,23 @@
 <?php
 use yii\bootstrap\Html;
+?>
+<form class="well well-sm">
+	<label>Filter Score:</label>
+	<div class="form-inline">
+		<div class="form-group">
+			<label for="min-score">Min</label>
+			<input type="number" class="form-control" id="filter-min-score" placeholder="0">
+		</div>
+		<div class="form-group">
+			<label for="exampleInputEmail2">Max</label>
+			<input type="number" class="form-control" id="filter-max-score" placeholder="100">
+		</div>
+		<button type="button" id="score-filter" class="btn btn-default">Filter</button>
+	</div>
+</form>
 
-
+<?php
 echo Html::beginTag('table', ['class' => 'table table-bordered']);
-
-
-//Use this for debugging
-// foreach ($model as $key => $field) {
-// 	echo Html::beginTag('tr');
-// 	echo Html::tag('th', $model->getAttributeLabel($key)); //Table head
-// 	echo Html::tag('td', $field); //Table Cell
-// 	echo Html::endTag('tr');
-// }
-
-//Use this for production
 
 	//Title
 	echo Html::beginTag('tr');

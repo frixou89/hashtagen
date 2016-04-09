@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'HashTaGen';
 ?>
-<div id="main" class="site-index">
+<div id="main" class="site-index container">
 
     <div class="jumbotron">
         <h1>Hashtag Generator</h1>
@@ -22,27 +22,40 @@ $this->title = 'HashTaGen';
 				    'options' => ['class' => 'form-horizontal'],
 				]) 
 			?>
-			    <?= $form->field($model, 'url')
-		    			 ->textInput(['id' => 'input-url'])
-		    			 ->label(false) ?>
+		    <?= $form->field($model, 'url')
+	    			 ->textInput(['id' => 'input-url'])
+	    			 ->label(false) ?>
+			<div class="collapse" id="formOptions">
+				<div class="well">
+					<div class="row">
+		    			<div class="col-md-4">
+						<?= $form->field($model, 'seperator')
+								 ->radioList([
+								 	'camelCase' => 'CamelCase', 
+								 	'underscore' => 'Underscore'
+							 	], ['class' => 'radio']);?>
+					 	</div>
+					 	<div class="col-md-4">
+						<?= $form->field($model, 'limitChars')->textInput();?>
+					 	</div>
+				 	</div>
+					
+					<?= $form->field($model, 'depth')
+							 ->radioList([
+							 	'1' => '1 word', 
+							 	'2' => 'up to 2 words', 
+							 	'3' => 'up to 3 words', 
+							 	'4' => 'up to 4 words'
+						 	], ['class' => 'radio']);?>
+			 	</div>
+		 	</div>
 
-				<?= $form->field($model, 'seperator')
-						 ->radioList([
-						 	'camelCase' => 'CamelCase', 
-						 	'underscore' => 'Underscore'
-					 	]);?>
-			 	
-				<?= $form->field($model, 'depth')
-						 ->radioList([
-						 	'1' => '1 word', 
-						 	'2' => 'up to 2 words', 
-						 	'3' => 'up to 3 words', 
-						 	'4' => 'up to 4 words'
-					 	]);?>
-
-			    <div class="form-group">
-		            <?= Html::submitButton('Generate', ['class' => 'btn btn-primary', 'id' => 'btn-submit']) ?>
-			    </div>
+		    <div class="form-group">
+	            <?= Html::submitButton('Generate', ['class' => 'btn btn-primary', 'id' => 'btn-submit']) ?>
+	            <a role="button" data-toggle="collapse" href="#formOptions" aria-expanded="true" aria-controls="collapseExample">
+			  		Options
+				</a>
+		    </div>
 			<?php ActiveForm::end() ?>
         </div>
 

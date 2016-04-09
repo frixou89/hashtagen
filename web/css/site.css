@@ -89,3 +89,24 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+/** TABLE RESULTS **/
+#htg-result span[data-toggle="tooltip"] {
+    cursor: pointer;
+}
+
+input#tag-limitchars {
+    max-width: 80px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    margin: 10px 0px 0px 17px;
+}
+.radio label {
+    font-size: 18px;
+    float: left;
+    width: 100%;
+    margin: 3px 0;
+    box-sizing: border-box;
+    padding: 5px 25px;
+}

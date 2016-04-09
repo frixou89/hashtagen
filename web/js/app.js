@@ -21,14 +21,23 @@ var APP = ( function () {
 		var url = inputUrl.val();
 		var depth = $("input[name='Tag[depth]']:checked").val();
 		var seperator = $("input[name='Tag[seperator]']:checked").val();
+		var limitChars = $("input[name='Tag[limitChars]']").val();
 		btnSubmit.attr('disabled', 'true');
+		
 		$.ajax({
 		  type: "POST",
 		  url: '/site/read-url',
-		  data: { url: url, depth: depth, seperator:seperator},
+		  data: { 
+	  		url: url, 
+	  		depth: depth, 
+	  		seperator: seperator,
+	  		limitChars: limitChars
+	  	},
 		  success: function(data) {
 		  	results.html(data);
 		  	btnSubmit.removeAttr('disabled');
+		  	bindTooltip();
+		  	bindScoreFilter();
 		  },
 		  error: function(XMLHttpRequest, textStatus, errorThrown) {
 		  	results.html('<span class="label label-danger">' + textStatus + '</span> Bad or Invalid URL');
@@ -37,13 +46,26 @@ var APP = ( function () {
 		});
 	}
 
-	function init() {
+	function bindTooltip() {
 		//Activate tooltips
   		$('[data-toggle="tooltip"]').tooltip();
 	}
 
+	function bindScoreFilter() {
+  		$('#score-filter').on('click', function() {
+  			var min = $('#filter-min-score').val();
+			var max = $('#filter-max-score').val();
+			
+			$('.hashtag-result').show();
+			$('.hashtag-result').filter(function(){
+			  return $(this).data('score') < parseInt(min) || $(this).data('score') > parseInt(max);
+			}).hide();
+  		});
+	}
+	
+
     return {
-        init:init
+        bindTooltip:bindTooltip
     }
 
 })();

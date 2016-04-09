@@ -45,6 +45,7 @@ class SiteController extends Controller
         $model = new Tag;
         //Set some default values for options
         $model->seperator = 'camelCase';
+        $model->limitChars = '20';
         $model->depth = 3;
 
         //Render index.php and send $model to the VIEW
@@ -65,6 +66,7 @@ class SiteController extends Controller
         $url = Yii::$app->request->post('url'); 
         $depth = Yii::$app->request->post('depth'); 
         $seperator = Yii::$app->request->post('seperator'); 
+        $limitChars = Yii::$app->request->post('limitChars'); 
         //Check if a url parameter was retrieved by the POST request.
         //Throws an error if not set or empty
         if (!$url) {
@@ -81,15 +83,16 @@ class SiteController extends Controller
         
         $info = Embed::create($model->url);
         if (!$info) {
-            return new NotFoundHttpException('Bad or invalid');
+            return new NotFoundHttpException('Bad or invalid url');
         }
 
-        $model->title = $info->title;
+        $model->title = '<a target="_blank" href="'.$info->providerUrl.'">'.$info->providerName.'</a>: ' . $info->title;
         $model->content = $info->getRequest()->getContent();
         $model->content = $model->cleanContent;
         $model->description = $info->description;
         $model->seperator = $seperator;
         $model->depth = $depth;
+        $model->limitChars = $limitChars;
 
         $tags = implode(', ', $info->tags);
         $text1 = $info->title . ', ' . $info->description;

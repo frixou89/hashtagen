@@ -58,11 +58,6 @@ AppAsset::register($this);
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
-<script type="text/javascript">
-    $(document).ready(function($) {
-        APP.init();
-    })
-</script>
 <?php $this->endBody() ?>
 </body>
 </html>
