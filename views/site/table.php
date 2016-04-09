@@ -17,7 +17,7 @@ echo Html::beginTag('table', ['class' => 'table table-bordered']);
 
 	//Title
 	echo Html::beginTag('tr');
-	echo Html::tag('th', 'Title'); //Table head
+	echo Html::tag('th', 'URL Title'); //Table head
 	echo Html::tag('td', $model->title); //Table Cell
 	echo Html::endTag('tr');
 

@@ -43,6 +43,9 @@ class SiteController extends Controller
     {
         //Create new Tag object
         $model = new Tag;
+        //Set some default values for options
+        $model->seperator = 'camelCase';
+        $model->depth = 3;
 
         //Render index.php and send $model to the VIEW
         return $this->render('index', [
@@ -60,6 +63,8 @@ class SiteController extends Controller
     {   
         //Get url from post request
         $url = Yii::$app->request->post('url'); 
+        $depth = Yii::$app->request->post('depth'); 
+        $seperator = Yii::$app->request->post('seperator'); 
         //Check if a url parameter was retrieved by the POST request.
         //Throws an error if not set or empty
         if (!$url) {
@@ -83,14 +88,16 @@ class SiteController extends Controller
         $model->content = $info->getRequest()->getContent();
         $model->content = $model->cleanContent;
         $model->description = $info->description;
+        $model->seperator = $seperator;
+        $model->depth = $depth;
 
         $tags = implode(', ', $info->tags);
-        $array1 = explode(' ', $info->title . ', ' . $info->description);
-        $array2 = explode(' ', $model->content);
+        $text1 = $info->title . ', ' . $info->description;
+        $text2 = $model->content;
         $defaults =  $tags . ', ' . $info->authorName;
 
-        // $model->words = $model->compare($array1, $array2, $defaults);
-        $model->words = $model->hashtags($array1, $array2, $defaults);
+        // $model->words = $model->compare($text1, $text2, $defaults);
+        $model->words = $model->hashtags($text1, $text2, $defaults);
 
         return $this->renderPartial('table', [
                 'model' => $model,

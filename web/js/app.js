@@ -19,11 +19,13 @@ var APP = ( function () {
 	function handleSubmit() {
 		results.html($('#progress-bar').clone(true));
 		var url = inputUrl.val();
+		var depth = $("input[name='Tag[depth]']:checked").val();
+		var seperator = $("input[name='Tag[seperator]']:checked").val();
 		btnSubmit.attr('disabled', 'true');
 		$.ajax({
 		  type: "POST",
 		  url: '/site/read-url',
-		  data: { url: url},
+		  data: { url: url, depth: depth, seperator:seperator},
 		  success: function(data) {
 		  	results.html(data);
 		  	btnSubmit.removeAttr('disabled');
@@ -35,9 +37,13 @@ var APP = ( function () {
 		});
 	}
 
+	function init() {
+		//Activate tooltips
+  		$('[data-toggle="tooltip"]').tooltip();
+	}
 
     return {
-        
+        init:init
     }
 
 })();

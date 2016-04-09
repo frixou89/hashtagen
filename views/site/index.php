@@ -22,7 +22,23 @@ $this->title = 'HashTaGen';
 				    'options' => ['class' => 'form-horizontal'],
 				]) 
 			?>
-			    <?= $form->field($model, 'url')->textInput(['id' => 'input-url'])->label(false) ?>
+			    <?= $form->field($model, 'url')
+		    			 ->textInput(['id' => 'input-url'])
+		    			 ->label(false) ?>
+
+				<?= $form->field($model, 'seperator')
+						 ->radioList([
+						 	'camelCase' => 'CamelCase', 
+						 	'underscore' => 'Underscore'
+					 	]);?>
+			 	
+				<?= $form->field($model, 'depth')
+						 ->radioList([
+						 	'1' => '1 word', 
+						 	'2' => 'up to 2 words', 
+						 	'3' => 'up to 3 words', 
+						 	'4' => 'up to 4 words'
+					 	]);?>
 
 			    <div class="form-group">
 		            <?= Html::submitButton('Generate', ['class' => 'btn btn-primary', 'id' => 'btn-submit']) ?>

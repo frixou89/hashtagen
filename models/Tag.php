@@ -14,13 +14,20 @@ class Tag extends Model
     public $description;
     public $content;
 
+    public $seperator;
+    public $depth;
+
     //Validation rules
     public function rules()
     {
         return [
             ['url', 'required', 'message' => 'Please enter a URL'], //Add required rule for validation
             ['url', 'url'], //Add url rule for validation
-            [['title', 'description', 'content', 'words'], 'safe'] //Mark attributes as safe so they can pass validation
+            [['title', 'description', 'content', 'words', 'depth'], 'safe'], //Mark attributes as safe so they can pass validation
+            ['seperator', 'default', 'value' => 'camelCase'], //Default value for depth
+            ['depth', 'default', 'value' => 3], //Default value for depth
+            ['seperator', 'in', 'range' => ['camelCase', 'underscore']], 
+            ['depth', 'in', 'range' => ['1', '2', '3', '4']], 
         ];
     }
 
@@ -55,20 +62,23 @@ class Tag extends Model
         return $result;
     }
 
-    public function hashtags($array1, $array2, $defaults = null) {
+    public function hashtags($text1, $text2, $defaults = null, $seperator = 'camelCase') {
     	$matches = [];
     	$found = [];
-    	$depth = 2;
+    	$depth = $this->depth;
+    	$array1 = $this->prepareKeywordArray($text1);
+    	$array2 = $this->prepareKeywordArray($text2);
     	for ($i = $depth; $i > 0; $i--) { 
     		$ar1 = array_chunk( $array1, $i, true );
-	    	foreach ($ar1 as $key1 => $value1) {
-	    		$string1 = implode(' ', $value1);
-	    		$string1 = preg_replace('/[^A-Za-z0-9\-]/', '' , $string1);
+	    	foreach ($ar1 as $key1 => $string1) {
+	    		$string1 = $this->seperateWords(implode(' ', $string1), $this->seperator);
+	    		//$string1 = preg_replace('[^A-Za-z0-9]', '' , $string1);
 	    		$ar2 = array_chunk ( $array2, $i, true );
-	    		foreach ($ar2 as $key2 => $value2) {
-	    			$string2 = implode(' ', $value2);
-	    			$string2 = preg_replace('/[^A-Za-z0-9\-]/', '' , $string2);
-	    			similar_text($string1, $string2, $percent); 
+	    		foreach ($ar2 as $key2 => $string2) {
+	    			$string2 = $this->seperateWords(implode(' ', $string2), $this->seperator);
+	    			//$string2 = preg_replace('[^A-Za-z0-9]', '' , $string2);
+	    			similar_text($string1, $string2, $percent);
+	    			$percent = round($percent, 2); 
 	    			if ($percent > 0) {
 	    				switch ($percent) {
 	    					case ($percent > 50):
@@ -82,7 +92,7 @@ class Tag extends Model
 	    						break;
 	    				}
 	    				if ((strlen($string2) < 20) && (strlen($string2) > 3) && (!array_search($string2, $found)) ) {
-		    				array_push($matches, '<span style="font-size: '.$size.'px;">'.$string2.'</span> ');
+		    				array_push($matches, '<span data-toggle="tooltip" data-placement="top" title="Volume: '.$percent.'%" style="font-size: '.$size.'px;">#'.trim($string2).'</span>');
 		    				array_push($found, $string2);
 	    				}
 	    			}
@@ -90,6 +100,41 @@ class Tag extends Model
 	    	}
     	}
 		array_unique($matches);
-    	return implode(', #', $matches);
+    	return implode(', ', $matches);
+    }
+
+    protected function prepareKeywordArray($text) {
+    	$s = explode(' ', $text);
+    	$result = [];
+    	foreach ($s as $key => $value) {
+    		$clean = preg_replace("/[^A-Za-z0-9]/", "", $value);
+    		$clean = strtolower($clean);
+    		array_push($result, $clean);
+    	}
+    	return $result;
+    }
+
+    protected function seperateWords($text, $seperator = 'camelCase') {
+    	$result = "";
+    	switch ($seperator) {
+    		case 'camelCase':
+    			$trimmed = trim($text);
+    			$camel = ucwords(strtolower($trimmed));
+    			$result = preg_replace('/\s+/', '', $camel);
+    			break;
+
+    		case 'underscore':
+    			$trimmed = trim($text);
+    			$camel = ucwords(strtolower($trimmed));
+    			$result = preg_replace('/\s+/', '_', $camel);
+    			break;    		
+
+			default:
+				$trimmed = trim($text);
+    			$camel = ucwords(strtolower($trimmed));
+    			$result = preg_replace('/\s+/', '', $camel);
+    			break;
+    	}
+    	return $result;
     }
 }
