@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4a9d202306b43f4a2ef3e2cd512e4d11",
-    "content-hash": "4072b039bf98feb8d9f2ece0dae991b3",
+    "hash": "9ec2d2251a74b3197956de3e5b2d292d",
+    "content-hash": "fcb394619b880a6ad72715ba66597a15",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -412,12 +412,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "aeb743730e509384bbc95b03d9657ee1a64f4169"
+                "reference": "4b79b496cb41feb1018f02566b6a149a6ee37534"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/aeb743730e509384bbc95b03d9657ee1a64f4169",
-                "reference": "aeb743730e509384bbc95b03d9657ee1a64f4169",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/4b79b496cb41feb1018f02566b6a149a6ee37534",
+                "reference": "4b79b496cb41feb1018f02566b6a149a6ee37534",
                 "shasum": ""
             },
             "require": {
@@ -498,7 +498,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-04-08 07:36:38"
+            "time": "2016-04-09 17:48:33"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -763,6 +763,50 @@
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
             "time": "2016-04-07 12:29:16"
+        },
+        {
+            "name": "purrweb/yii2-heroku",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PurrWeb/yii2-heroku.git",
+                "reference": "ea99076cf1f57db5f6c220ca293d83f74f33b041"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PurrWeb/yii2-heroku/zipball/ea99076cf1f57db5f6c220ca293d83f74f33b041",
+                "reference": "ea99076cf1f57db5f6c220ca293d83f74f33b041",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "purrweb\\heroku\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitriy Krista",
+                    "email": "dmitriy.krista@gmail.com"
+                }
+            ],
+            "description": "Generate yii2 environments for easy deployment on heroku",
+            "homepage": "https://github.com/PurrWeb/yii2-heroku",
+            "keywords": [
+                "deploy",
+                "extension",
+                "generator",
+                "heroku",
+                "yii2"
+            ],
+            "time": "2015-06-30 09:43:40"
         },
         {
             "name": "yiisoft/yii2-codeception",
