@@ -36,6 +36,7 @@
         ],
 		"post-install-cmd": [
             "sh post-install-cmd.sh"
+		]
     },
     "extra": {
         "yii\\composer\\Installer::postCreateProject": {
