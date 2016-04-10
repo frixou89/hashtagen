@@ -2,7 +2,7 @@
 use yii\bootstrap\Html;
 ?>
 <form class="well well-sm">
-	<label>Filter Score:</label>
+	<label>Filter Keyword Density Score:</label>
 	<div class="form-inline">
 		<div class="form-group">
 			<label for="min-score">Min</label>

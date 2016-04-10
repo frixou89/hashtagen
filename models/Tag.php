@@ -50,7 +50,7 @@ class Tag extends Model
         $step2 = stripslashes($step1); //Strip slashes
         //Limit words so it doesn't exceed process time limits. 
         //Limiting characters would make keywords lose their value.
-        $step3 = StringHelper::truncateWords ( $step2, 500); 
+        $step3 = StringHelper::truncateWords ( $step2, 1000); 
         
         return $step3;
     }
