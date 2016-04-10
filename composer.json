@@ -25,7 +25,6 @@
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*",
-        "purrweb/yii2-heroku": "*"
     },
     "config": {
         "process-timeout": 1800
@@ -33,10 +32,7 @@
     "scripts": {
         "post-create-project-cmd": [
             "yii\\composer\\Installer::postCreateProject"
-        ],
-		"post-install-cmd": [
-            "sh post-install-cmd.sh"
-		]
+        ]
     },
     "extra": {
         "yii\\composer\\Installer::postCreateProject": {
