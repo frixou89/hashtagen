@@ -37,6 +37,7 @@ $this->title = 'HashTaGen';
 					 	</div>
 					 	<div class="col-md-4">
 						<?= $form->field($model, 'limitChars')->textInput();?>
+						<p>Min: 3 - Max: 20</p>
 					 	</div>
 				 	</div>
 					
