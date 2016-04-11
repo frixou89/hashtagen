@@ -9,8 +9,7 @@ $this->title = 'HashTaGen';
 <div id="main" class="site-index container">
 
     <div class="jumbotron">
-        <h1>Hashtag Generator</h1>
-
+        <h1>#Hashtag Generator</h1>
         <p class="lead">Enter the url you would like to scan and hit the generate button!</p>
     </div>
 
@@ -53,7 +52,7 @@ $this->title = 'HashTaGen';
 
 		    <div class="form-group">
 	            <?= Html::submitButton('Generate', ['class' => 'btn btn-primary', 'id' => 'btn-submit']) ?>
-	            <a role="button" data-toggle="collapse" href="#formOptions" aria-expanded="true" aria-controls="collapseExample">
+	            <a id="formOptionsBtn" role="button" data-toggle="collapse" href="#formOptions" aria-expanded="true" aria-controls="formOptions">
 			  		Options
 				</a>
 		    </div>
